@@ -1,6 +1,6 @@
 {
   "name": "semantic-release-haxelib",
-  "version": "0.0.0-development",
+  "version": "0.1.0",
   "description": "A semantic-release plugin for publishing haxelib packages.",
   "main": "index.js",
   "author": "Ben Van Treese <vantreeseba@gmail.com>",
