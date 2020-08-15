@@ -1,11 +1,9 @@
 const { readFile, writeFile } = require('fs').promises;
 const fs = require('fs');
 const path = require('path');
-const execa = require('execa');
-const { move } = require('fs-extra');
 const archiver = require('archiver');
 
-const writeVersion = async({ nextVersion, logger, cwd }) => {
+const writeVersion = async ({ nextVersion, logger, cwd }) => {
   const jsonPath = path.resolve(cwd, 'haxelib.json');
   const contents = await readFile(jsonPath);
   const json = JSON.parse(contents);
@@ -17,9 +15,9 @@ const writeVersion = async({ nextVersion, logger, cwd }) => {
   return json;
 };
 
-const buildZip = async({ cwd, additionalFiles, artifactsDir, libInfo, logger }) => {
+const buildZip = async ({ cwd, additionalFiles, artifactsDir, libInfo, logger }) => {
   return new Promise((resolve, reject) => {
-    if (!fs.existsSync(artifactsDir)){
+    if (!fs.existsSync(artifactsDir)) {
       fs.mkdirSync(artifactsDir);
     }
 
@@ -69,7 +67,7 @@ const buildZip = async({ cwd, additionalFiles, artifactsDir, libInfo, logger }) 
 
 module.exports = async function prepare(
   { artifactsDir = 'artifacts', additionalFiles },
-  { nextRelease: { version }, cwd, env, logger, stdout, stderr },
+  { nextRelease: { version }, cwd, logger }
 ) {
   const libInfo = await writeVersion({ nextVersion: version, logger, cwd });
   const zip = await buildZip({ cwd, additionalFiles, artifactsDir, libInfo, logger });

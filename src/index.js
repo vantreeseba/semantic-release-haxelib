@@ -10,7 +10,7 @@ async function verifyConditions(pluginConfig, context) {
 }
 
 async function prepare(pluginConfig, context) {
-  ({ libInfo, zip } = await haxelibPrepare(pluginConfig, context, { versionFile, gemspec, gemName }));
+  ({ libInfo, zip } = await haxelibPrepare(pluginConfig, context, {}));
 }
 
 async function publish(pluginConfig, context) {
