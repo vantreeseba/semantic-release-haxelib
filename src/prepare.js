@@ -54,7 +54,7 @@ const buildZip = async({ cwd, additionalFiles, artifactsDir, libInfo, logger }) 
     archive.glob(`${libInfo.classPath}/**/*`);
 
     additionalFiles.forEach(file => {
-      const filePath = `${cwd}/${file}`;
+      const filePath = `${file}`;
       archive.append(filePath, { name: filePath });
     });
 
