@@ -1,0 +1,52 @@
+{
+  "name": "semantic-release-haxelib",
+  "version": "0.0.0-development",
+  "description": "A semantic-release plugin for publishing haxelib packages.",
+  "main": "index.js",
+  "author": "Ben Van Treese <vantreeseba@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/vantreeseba/semantic-release-haxelib/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vantreeseba/semantic-release-haxelib.git"
+  },
+  "homepage": "https://github.com/vantreeseba/semantic-release-haxelib#readme",
+  "keywords": [
+    "haxelibs",
+    "publish",
+    "semantic-release",
+    "version"
+  ],
+  "engines": {
+    "node": ">=10.18"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "src",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0",
+    "ncp": "^2.0.0",
+    "rimraf": "^3.0.2",
+    "semantic-release": "^17.1.1",
+    "stream-buffers": "^3.0.2"
+  },
+  "dependencies": {
+    "@semantic-release/error": "^2.2.0",
+    "execa": "^4.0.2",
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
+    "tempy": "^0.5.0"
+  },
+  "peerDependencies": {
+    "semantic-release": ">=16.0.0 <18.0.0"
+  }
+}
