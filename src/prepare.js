@@ -17,7 +17,7 @@ const writeVersion = async({ nextVersion, logger, cwd }) => {
   return json;
 };
 
-const buildZip = async({ artifactsDir, libInfo, logger }) => {
+const buildZip = async({ cwd, additionalFiles, artifactsDir, libInfo, logger }) => {
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(artifactsDir)){
       fs.mkdirSync(artifactsDir);
@@ -55,6 +55,11 @@ const buildZip = async({ artifactsDir, libInfo, logger }) => {
     // append files from a glob pattern
     archive.glob(`${libInfo.classPath}/**/*`);
 
+    additionalFiles.forEach(file => {
+      const filePath = path.resolve(cwd, file);
+      archive.append(filePath, { name: filePath });
+    });
+
     // finalize the archive (ie we are done appending files but streams have to finish yet)
     // 'close', 'end' or 'finish' may be fired right after calling this method
     // so register to them beforehand
@@ -63,11 +68,11 @@ const buildZip = async({ artifactsDir, libInfo, logger }) => {
 };
 
 module.exports = async function prepare(
-  { artifactsDir = 'artifacts' },
+  { artifactsDir = 'artifacts', additionalFiles },
   { nextRelease: { version }, cwd, env, logger, stdout, stderr },
 ) {
   const libInfo = await writeVersion({ nextVersion: version, logger, cwd });
-  const zip = await buildZip({ artifactsDir, libInfo, logger });
+  const zip = await buildZip({ cwd, additionalFiles, artifactsDir, libInfo, logger });
 
   return { libInfo, zip };
 };
