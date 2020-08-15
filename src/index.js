@@ -6,7 +6,7 @@ let libInfo;
 let zip;
 
 async function verifyConditions(pluginConfig, context) {
-  await haxelibVerify(pluginConfig, context, { credentialsFile });
+  await haxelibVerify(pluginConfig, context, {});
 }
 
 async function prepare(pluginConfig, context) {

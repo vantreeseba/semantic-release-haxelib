@@ -32,7 +32,6 @@ const loadHaxelibJson = async(context) => {
 const verifyApiKey = async(context) => {
   const { env } = context;
 
-  // TODO: Handle credentials stored in ~/.gem/credentials
   if (!env.HAXELIB_PASS) {
     throw new SemanticReleaseError(
       'No haxelib pass given.',
