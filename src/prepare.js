@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const archiver = require('archiver');
 
-const writeVersion = async ({ nextVersion, logger, cwd }) => {
+const writeVersion = async({ nextVersion, logger, cwd }) => {
   const jsonPath = path.resolve(cwd, 'haxelib.json');
   const contents = await readFile(jsonPath);
   const json = JSON.parse(contents);
@@ -15,14 +15,14 @@ const writeVersion = async ({ nextVersion, logger, cwd }) => {
   return json;
 };
 
-const buildZip = async ({ cwd, additionalFiles, artifactsDir, libInfo, logger }) => {
+const buildZip = async({ cwd, additionalFiles, artifactsDir, libInfo, logger }) => {
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(artifactsDir)) {
       fs.mkdirSync(artifactsDir);
     }
 
     // create a file to stream archive data to.
-    var zipFilePath = path.resolve(artifactsDir, `${libInfo.name}.zip`);
+    var zipFilePath = artifactsDir + `/${libInfo.name}.zip`;
     logger.log(`Creating zip for haxelib at ${zipFilePath}`);
     var output = fs.createWriteStream(zipFilePath);
     var archive = archiver('zip', {
@@ -54,7 +54,7 @@ const buildZip = async ({ cwd, additionalFiles, artifactsDir, libInfo, logger })
     archive.glob(`${libInfo.classPath}/**/*`);
 
     additionalFiles.forEach(file => {
-      const filePath = path.resolve(cwd, file);
+      const filePath = `${cwd}/${file}`;
       archive.append(filePath, { name: filePath });
     });
 
@@ -66,7 +66,7 @@ const buildZip = async ({ cwd, additionalFiles, artifactsDir, libInfo, logger })
 };
 
 module.exports = async function prepare(
-  { artifactsDir = 'artifacts', additionalFiles },
+  { artifactsDir = 'artifacts', additionalFiles = [] },
   { nextRelease: { version }, cwd, logger }
 ) {
   const libInfo = await writeVersion({ nextVersion: version, logger, cwd });
