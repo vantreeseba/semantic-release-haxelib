@@ -15,7 +15,8 @@
   },
   "homepage": "https://github.com/vantreeseba/semantic-release-haxelib#readme",
   "keywords": [
-    "haxelibs",
+    "haxelib",
+    "haxe",
     "publish",
     "semantic-release",
     "version"
@@ -41,6 +42,7 @@
   },
   "dependencies": {
     "@semantic-release/error": "^2.2.0",
+    "archiver": "^5.0.0",
     "execa": "^4.0.2",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",

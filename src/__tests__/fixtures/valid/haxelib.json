@@ -1,0 +1,13 @@
+{
+  "name": "valid_lib",
+  "license": "MIT",
+  "tags": [],
+  "classPath": "src/__tests__/fixtures/valid",
+  "contributors": [
+    "vantreeseba"
+  ],
+  "releasenote": "Various fixes",
+  "version": "0.1.0",
+  "url": "https://github.com/vantreeseba/semantic-release-haxelib/",
+  "dependencies": {}
+}
