@@ -55,7 +55,7 @@ const buildZip = async({ cwd, additionalFiles, artifactsDir, libInfo, logger }) 
 
     additionalFiles.forEach(file => {
       const filePath = `${file}`;
-      archive.append(filePath, { name: filePath });
+      archive.append(fs.createReadStream(filePath), { name: filePath });
     });
 
     // finalize the archive (ie we are done appending files but streams have to finish yet)
