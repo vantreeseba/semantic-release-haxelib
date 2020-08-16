@@ -54,10 +54,12 @@ const buildZip = async({ cwd, additionalFiles, artifactsDir, libInfo, logger }) 
     archive.glob(`${libInfo.classPath}/**/*`);
 
     additionalFiles.forEach(file => {
+      const filePath = `${file}`;
+
       if(!fs.existsSync(filePath)) {
         return;
       }
-      const filePath = `${file}`;
+
       archive.append(fs.createReadStream(filePath), { name: filePath });
     });
 
