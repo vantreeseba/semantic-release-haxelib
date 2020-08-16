@@ -46,3 +46,11 @@ This plugin requires exactly one valid `haxelib.json` file to be present in the 
 |--------------|---------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | `haxelibPublish` | Whether to publish your haxelib to the haxelib server. | `true` |
 | `additionalFiles` | Additional files to add to haxelib archive (i.e. CHANGELOG.md) | [] |
+
+The files added to the zip by default are
+* haxelib.json
+* README.md
+* LICENSE.md
+* CHANGELOG.md
+
+as well as everything recursively under the classPath in the haxelib.json.

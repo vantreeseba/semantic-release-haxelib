@@ -54,6 +54,9 @@ const buildZip = async({ cwd, additionalFiles, artifactsDir, libInfo, logger }) 
     archive.glob(`${libInfo.classPath}/**/*`);
 
     additionalFiles.forEach(file => {
+      if(!fs.existsSync(filePath)) {
+        return;
+      }
       const filePath = `${file}`;
       archive.append(fs.createReadStream(filePath), { name: filePath });
     });
@@ -70,6 +73,19 @@ module.exports = async function prepare(
   { nextRelease: { version }, cwd, logger }
 ) {
   const libInfo = await writeVersion({ nextVersion: version, logger, cwd });
+
+
+  // Add default files to additional files.
+  additionalFiles.push('haxelib.json');
+  additionalFiles.push('README.md');
+  additionalFiles.push('CHANGELOG.md');
+  additionalFiles.push('LICENSE.md');
+
+  // Make sure all files are unique.
+  additionalFiles = additionalFiles.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
+
   const zip = await buildZip({ cwd, additionalFiles, artifactsDir, libInfo, logger });
 
   return { libInfo, zip };
