@@ -5,12 +5,24 @@ const archiver = require('archiver');
 
 const writeVersion = async({ nextVersion, logger, cwd }) => {
   const jsonPath = path.resolve(cwd, 'haxelib.json');
-  const contents = await readFile(jsonPath);
+  const contents = await readFile(jsonPath, 'utf8');
   const json = JSON.parse(contents);
   json.version = nextVersion;
   await writeFile(jsonPath, JSON.stringify(json, null, 2));
 
   logger.log(`Writing version ${nextVersion} to ${jsonPath}`);
+
+  return json;
+};
+
+const writeReleaseNote = async({ nextVersion, logger, cwd }) => {
+  const jsonPath = path.resolve(cwd, 'haxelib.json');
+  const contents = await readFile(jsonPath, 'utf8');
+  const json = JSON.parse(contents);
+  json.releasenote = `Release version ${nextVersion}. See CHANGELOG.md for details.`;
+  await writeFile(jsonPath, JSON.stringify(json, null, 2));
+
+  logger.log(`Writing releaseNote ${json.releasenote} to ${jsonPath}`);
 
   return json;
 };
@@ -74,7 +86,8 @@ module.exports = async function prepare(
   { artifactsDir = 'artifacts', additionalFiles = [] },
   { nextRelease: { version }, cwd, logger }
 ) {
-  const libInfo = await writeVersion({ nextVersion: version, logger, cwd });
+  let libInfo = await writeVersion({ nextVersion: version, logger, cwd });
+  libInfo = await writeReleaseNote({ nextVersion: version, logger, cwd });
 
 
   // Add default files to additional files.
