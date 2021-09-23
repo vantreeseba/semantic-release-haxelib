@@ -1,6 +1,6 @@
 # semantic-release-haxelib
 
-[**semantic-release**](https://github.com/semantic-release/semantic-release) plugin for publishing Haxe [libraries](https://haxelibs.org/).
+[**semantic-release**](https://github.com/semantic-release/semantic-release) plugin for publishing Haxe [libraries](https://lib.haxe.org/).
 
 | Step               | Description                                                                                                                                   |                                                                     |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
