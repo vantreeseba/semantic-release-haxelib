@@ -1,19 +1,19 @@
-const { unlink } = require('fs').promises;
-const execa = require('execa');
+const {unlink} = require('fs').promises;
 
 module.exports = async function publish(
-  { haxelibPublish = false },
-  { cwd, env, logger, nextRelease: { version }, stdout, stderr },
-  { libInfo, zip },
+  {haxelibPublish = false},
+  {cwd, env, logger, nextRelease: {version}, stdout, stderr},
+  {libInfo, zip},
 ) {
+  const execa = await import('execa');
 
   if (haxelibPublish !== false) {
     logger.log(`Publishing version ${version} to haxelib`);
     const args = ['submit', zip, env.HAXELIB_PASS, '--always'];
 
-    const pushResult = execa('haxelib', args, { cwd, env });
-    pushResult.stdout.pipe(stdout, { end: false });
-    pushResult.stderr.pipe(stderr, { end: false });
+    const pushResult = execa('haxelib', args, {cwd, env});
+    pushResult.stdout.pipe(stdout, {end: false});
+    pushResult.stderr.pipe(stderr, {end: false});
     await pushResult;
 
     logger.log(`Published version ${version} of ${libInfo.name} to haxelib`);
