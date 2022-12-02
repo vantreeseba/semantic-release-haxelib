@@ -1,9 +1,9 @@
 const path = require('path');
-const { promisify } = require('util');
+const {promisify} = require('util');
 const rimrafOrig = require('rimraf');
 const ncpModule = require('ncp');
-const { readFile, writeFile, access } = require('fs').promises;
-const { WritableStreamBuffer } = require('stream-buffers');
+const {readFile, writeFile, access} = require('fs').promises;
+const {WritableStreamBuffer} = require('stream-buffers');
 const prepare = require('../prepare');
 
 const rimraf = promisify(rimrafOrig);
@@ -13,30 +13,32 @@ const cwd = path.resolve(__dirname, './fixtures/temp');
 const gemspec = 'test-gem.gemspec';
 const gemName = 'a-test-gem';
 const context = {
-  nextRelease: { version: '1.2.0' },
+  nextRelease: {version: '1.2.0'},
   cwd,
-  logger: { log: (...args) => {
-    console.log(args);
-  } },
+  logger: {
+    log: (...args) => {
+      console.log(args);
+    }
+  },
   stdout: new WritableStreamBuffer(),
   stderr: new WritableStreamBuffer(),
 };
 
 const cleanUp = () => rimraf(cwd);
 
-beforeEach(async() => {
+beforeEach(async () => {
   await cleanUp();
   await ncp(path.resolve(__dirname, './fixtures/valid'), cwd);
 });
 
-afterEach(async() => {
+afterEach(async () => {
   await cleanUp();
 });
 
 const expectFileExists = file => expect(access(path.resolve(cwd, file))).resolves.toBeUndefined();
 
-it('writes the new version to the version.rb file', async() => {
-  await prepare({}, context, { gemspec, gemName });
+it('writes the new version to the version.rb file', async () => {
+  await prepare({}, context, {gemspec, gemName});
 
   const versionContents = await readFile(path.resolve(cwd, 'haxelib.json'), 'utf8');
   expect(versionContents).toEqual(
@@ -48,7 +50,7 @@ it('writes the new version to the version.rb file', async() => {
   "contributors": [
     "vantreeseba"
   ],
-  "releasenote": "Various fixes",
+  "releasenote": "Release version 1.2.0. See CHANGELOG.md for details.",
   "version": "1.2.0",
   "url": "https://github.com/vantreeseba/semantic-release-haxelib/",
   "dependencies": {}
