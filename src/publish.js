@@ -16,10 +16,10 @@ module.exports = async function publish(
       throw (`Error: zip file '${zip}' does not exist.`);
     }
 
-    const args = ['haxelib', 'submit', zip, env.HAXELIB_PASS, '--always'];
+    const args = ['haxelib', 'submit', zip, '--always'];
 
     try {
-      const pushResult = await exec(args.join(' '));
+      const pushResult = await exec(args.join(' '), {env, cwd});
       process.stdout.write(pushResult.stdout);
     } catch (err) {
       process.stderr.write(err.toString());
