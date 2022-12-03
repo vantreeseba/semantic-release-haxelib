@@ -16,9 +16,16 @@ module.exports = async function publish(
       throw (`Error: zip file '${zip}' does not exist.`);
     }
 
-    const args = ['haxelib', 'submit', zip, '--always'];
+    if (!env.HAXELIB_PASS) {
+      throw (`Error: No password provided.`);
+    }
+
+    logger.log(`Publishing ${zip} as ${version} to haxelib`);
+    logger.log(`${env} ${cwd}`);
 
     try {
+      // Put pass in quotes to prevent some issues in shells.
+      const args = ['haxelib', 'submit', zip, `'${env.HAXELIB_PASS}'`, '--always'];
       const pushResult = await exec(args.join(' '), {env, cwd});
       process.stdout.write(pushResult.stdout);
     } catch (err) {

@@ -20,7 +20,39 @@ const context = {
   stderr: new WritableStreamBuffer(),
 };
 
-it('publishes the haxelib.', async () => {
+
+// it('publishes the haxelib.', async () => {
+//   const haxelibPublish = true;
+//   const libInfo = {};
+//   const cwd = path.resolve(__dirname, './fixtures/valid');
+//   const zip = path.resolve(cwd, 'test.zip');
+//
+//   var createdZip = new AdmZip();
+//   createdZip.addFile('test.txt', Buffer.from('test'));
+//   createdZip.writeZip(zip);
+//
+//   await publish({haxelibPublish}, context, {libInfo, zip});
+// });
+
+it('fails when no zip path is provided.', async () => {
+  const haxelibPublish = true;
+  const libInfo = {};
+
+  await expect(publish({haxelibPublish}, context, {libInfo, zip: ''}))
+    .rejects.toEqual("Error: zip file '' does not exist.");
+});
+
+it('fails when invalid zip path is provided.', async () => {
+  const haxelibPublish = true;
+  const libInfo = {};
+
+  await expect(publish({haxelibPublish}, context, {libInfo, zip: 'test.zip'}))
+    .rejects.toEqual("Error: zip file 'test.zip' does not exist.");
+});
+
+
+it('fails when no password is provided.', async () => {
+  const haxelibPublish = true;
   const libInfo = {};
   const cwd = path.resolve(__dirname, './fixtures/valid');
   const zip = path.resolve(cwd, 'test.zip');
@@ -29,23 +61,8 @@ it('publishes the haxelib.', async () => {
   createdZip.addFile('test.txt', Buffer.from('test'));
   createdZip.writeZip(zip);
 
-  //   fs.writeFileSync(zip, 'this is not really a zip')
+  context.env.HAXELIB_PASS = '';
 
-  await publish({haxelibPublish: true}, context, {libInfo, zip});
-
-  //   const versionContents = await readFile(path.resolve(cwd, 'haxelib.json'), 'utf8');
-  //   expect(versionContents).toEqual(
-  //     `{
-  //   "name": "valid_lib",
-  //   "license": "MIT",
-  //   "tags": [],
-  //   "classPath": "src/__tests__/fixtures/valid",
-  //   "contributors": [
-  //     "vantreeseba"
-  //   ],
-  //   "releasenote": "Release version 1.2.0. See CHANGELOG.md for details.",
-  //   "version": "1.2.0",
-  //   "url": "https://github.com/vantreeseba/semantic-release-haxelib/",
-  //   "dependencies": {}
-  // }`);
+  await expect(publish({haxelibPublish}, context, {libInfo, zip}))
+    .rejects.toEqual("Error: No password provided.");
 });
