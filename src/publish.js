@@ -7,14 +7,14 @@ module.exports = async function publish(
   {cwd, env, logger, nextRelease: {version}, stdout, stderr},
   {libInfo, zip},
 ) {
-  try {
-    const res = await stat(zip);
-  } catch (err) {
-    throw (`Error: zip file '${zip}' does not exist.`);
-  }
-
   if (haxelibPublish !== false) {
     logger.log(`Publishing version ${version} to haxelib`);
+
+    try {
+      const res = await stat(zip);
+    } catch (err) {
+      throw (`Error: zip file '${zip}' does not exist.`);
+    }
 
     const args = ['haxelib', 'submit', zip, env.HAXELIB_PASS, '--always'];
 
